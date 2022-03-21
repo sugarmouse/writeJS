@@ -301,16 +301,55 @@ describe("MyPromise", () => {
 
     it("如果 onFullfilled 返回一个包含 then 方法的 对象", () => {
       const fn = sinon.fake()
-      const myPromise1 = new MyPromise((resolve)=>{
+      const myPromise1 = new MyPromise((resolve) => {
         resolve()
       })
-      myPromise1.then(()=>{
+      myPromise1.then(() => {
         return {
-          then:fn
+          then: fn
         }
       })
-      setTimeout(()=>{
+      setTimeout(() => {
         assert(fn.called)
+      })
+    })
+
+
+
+  })
+  describe("MyPromise.all 测试", () => {
+    it("数组内的 MyPromise 都成功的情况下，可以return出结果", () => {
+      const myPromise1 = new Promise((resolve, reject) => {
+        resolve("myPromise1")
+      })
+      const myPromise2 = new Promise((resolve, reject) => {
+        resolve("myPromise2")
+      })
+      const myPromise3 = new Promise((resolve, reject) => {
+        resolve("myPromise3")
+      })
+      MyPromise.all([myPromise1, myPromise2, myPromise3]).then(result => {
+        console.log(result)
+        assert(result.length === 3)
+        for (let i = 0; i < result.length; i++) {
+          console.log(result[i])
+          assert(result[i]===`myPromise${i+1}`)
+        }
+      })
+    })
+
+    it("数组内的 MyPromise 有一个失败的情况下，可以 reject 失败的值", () => {
+      const myPromise1 = new Promise((resolve, reject) => {
+        resolve("myPromise1")
+      })
+      const myPromise2 = new Promise((resolve, reject) => {
+        resolve("myPromise2")
+      })
+      const myPromise3 = new Promise((resolve, reject) => {
+        reject("myPromise3")
+      })
+      MyPromise.all([myPromise1, myPromise2, myPromise3]).then(null,reason=>{
+        assert(reason === 'myPromise3')
       })
     })
 

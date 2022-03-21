@@ -102,6 +102,27 @@ class MyPromise {
       this.resolve(x)
     }
   }
+
+  static all(myPromiseList) {
+    return new MyPromise((resolve, reject) => {
+      const result = []
+      let successIndex = 0
+      myPromiseList.map(myPromise => {
+        myPromise.then((res) => {
+          // result.push(res)
+          result[index] = res
+          successIndex += 1
+          if (successIndex === myPromiseList.length-1){
+            console.log(successIndex)
+            console.log(length)
+            resolve(result)
+          }
+        }, (err) => {
+          reject(err)
+        })
+      })
+    })
+  }
 }
 
 // 兼顾 浏览器 和 node 运行环境的微任务封装
