@@ -1,3 +1,6 @@
 /node_modules
 
 *.p.js
+
+/.vscode
+/new
