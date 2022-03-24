@@ -5,7 +5,7 @@ const sinonChai = require("sinon-chai")
 chai.use(sinonChai)
 
 const assert = chai.assert
-const deepClone = require("../src/index")
+const deepClone = require("../src/deepClone.js")
 
 describe("deepClone", () => {
   it("是个函数", () => {
